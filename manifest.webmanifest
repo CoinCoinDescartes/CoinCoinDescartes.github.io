@@ -14,7 +14,7 @@
             "type": "image/png"
         }
     ],
-    "name": "Tablut Test",
+    "name": "Tablut Game",
     "short_name": "Tablut",
     "categories": ["games", "tablut"],
     "lang": "en-US",
