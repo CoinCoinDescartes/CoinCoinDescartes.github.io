@@ -4,8 +4,13 @@
     "display": "fullscreen",
     "icons": [
         {
-            "src": "icon/tablut.png",
+            "src": "icon/tablut255.png",
             "sizes": "255x255",
+            "type": "image/png"
+        },
+        {
+            "src": "icon/tablut32.png",
+            "sizes": "32x32",
             "type": "image/png"
         }
     ],

@@ -4,23 +4,21 @@ const filesToCache = [
   'index.html',
   'main.js',
   'styles.css',
-  'icon/tablut.png',
+  'icon/tablut255.png',
+  'icon/tablut32.png',
   'img/black.png',
   'img/white.png',
   'img/king.png',
   'audio/bip.mp3',
   'audio/boup.mp3',
-  'modules/',
   'modules/board.js',
   'modules/games.js',
   'modules/player.js',
   'modules/square.js',
   'modules/token.js',
   'modules/utils.js',
-  'modules/renderers/',
   'modules/renderers/renderer.js',
   'modules/renderers/originalRenderer.js',
-  'modules/ia/',
   'modules/ia/ia.js',
   'modules/ia/randomIA.js',
 ];
@@ -34,10 +32,16 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  console.log(e.request.url);
   e.respondWith(
-    caches.match(e.request).then((response) => {
-      return response || fetch(e.request);
+    caches.match(e.request).then((r) => {
+      console.log('[Service Worker] Fetching resource: ' + e.request.url);
+      return r || fetch(e.request).then((response) => {
+        return caches.open(cacheName).then((cache) => {
+          console.log('[Service Worker] Caching new resource: ' + e.request.url);
+          cache.put(e.request, response.clone());
+          return response;
+        });
+      });
     })
   );
 });
