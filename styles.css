@@ -1,0 +1,97 @@
+#game-zone {
+  display  : grid;
+  max-width: 800px;
+  margin   : auto;
+}
+
+.grid-container {
+  display              : grid;
+  grid-template-columns: repeat(9, minmax(45px, 1fr));
+  grid-auto-rows       : 1fr;
+}
+
+.grid-container::before {
+  content       : '';
+  width         : 0;
+  padding-bottom: 100%;
+  grid-row      : 1 / 1;
+  grid-column   : 1 / 1;
+}
+
+.grid-container> :first-child {
+  grid-row   : 1 / 1;
+  grid-column: 1 / 1;
+}
+
+.grid-container .grid-item {
+  display         : grid;
+  justify-items   : center;
+  align-items     : center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border          : 1px solid rgba(0, 0, 0, 0.8);
+  text-align      : center;
+  color           : blue;
+}
+
+.grid-container .grid-item:nth-child(2n) {
+  background-color: saddlebrown;
+}
+
+.grid-container .grid-item.validMove {
+  background-color: aqua;
+}
+
+.grid-container .grid-item.validMove.current {
+  background-color: red;
+}
+
+.grid-container .grid-item.throne {
+  background-color: cadetblue;
+}
+
+.grid-container .pion {
+  height             : 100%;
+  width              : 100%;
+  background-position: center center;
+  background-repeat  : no-repeat;
+  background-size    : cover;
+}
+
+.grid-container .pion.black {
+  background-image: url("./img/black.png");
+}
+
+.grid-container .pion.white {
+  background-image: url("./img/white.png");
+}
+
+.grid-container .pion.white.king {
+  background-image: url("./img/king.png");
+}
+
+body {
+  background-color: black;
+  color           : white;
+}
+
+#update-alert {
+  position           : fixed;
+  bottom             : 1em;
+  left               : 50%;
+  transform          : translateX(-50%);
+  padding            : .75rem 1.25rem;
+  margin-bottom      : 1rem;
+  border             : 1px solid transparent;
+  border-top-color   : transparent;
+  border-right-color : transparent;
+  border-bottom-color: transparent;
+  border-left-color  : transparent;
+  border-radius      : .25rem;
+  color              : rgb(156, 230, 243);
+  background-color   : rgb(18, 54, 60);
+  border-color       : rgb(34, 101, 112);
+}
+
+.text-right {
+  text-align: right;
+}

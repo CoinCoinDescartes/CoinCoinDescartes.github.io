@@ -1,0 +1,17 @@
+{
+    "background_color": "black",
+    "description": "Play tablut versus IA !",
+    "display": "fullscreen",
+    "icons": [
+        {
+            "src": "icon/tablut.png",
+            "sizes": "255x255",
+            "type": "image/png"
+        }
+    ],
+    "name": "Tablut Test",
+    "short_name": "Tablut",
+    "categories": ["games", "tablut"],
+    "lang": "en-US",
+    "start_url": "./index.html"
+}
