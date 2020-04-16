@@ -1,5 +1,5 @@
-const cacheName = 'coin-tablut-v1.3'
-const dataCacheName = 'coin-tablut-1.0-data-v1.3';
+const cacheName = 'coin-tablut-v1.4'
+const dataCacheName = 'coin-tablut-1.0-data-v1.4';
 const filesToCache = [
   'index.html',
   'main.js',
@@ -57,4 +57,5 @@ self.addEventListener('activate', (event) => {
       }));
     })
   );
+  return self.clients.claim();
 });
