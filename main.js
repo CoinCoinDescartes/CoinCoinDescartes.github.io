@@ -52,6 +52,8 @@ function initGame() {
 function initSW() {
   const checkUpdate = (registration) => {
     registration.onupdatefound = () => {
+      console.log("update found !");
+      
       const installingWorker = registration.installing;
       installingWorker.onstatechange = () => {
         switch (installingWorker.state) {

@@ -25,6 +25,7 @@ const filesToCache = [
 ];
 
 self.addEventListener('install', (e) => {
+  console.log('Service worker installing...');
   e.waitUntil(
     caches.open(cacheName).then((cache) => {
       return cache.addAll(filesToCache);
@@ -33,6 +34,7 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
+  console.log('Service worker fetching...');
   e.respondWith(
     caches.match(e.request).then((r) => {
       console.log('[Service Worker] Fetching resource: ' + e.request.url);
@@ -48,6 +50,7 @@ self.addEventListener('fetch', (e) => {
 });
 
 self.addEventListener('activate', (event) => {
+  console.log('Service worker activating...');
   event.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(keyList.map((key) => {

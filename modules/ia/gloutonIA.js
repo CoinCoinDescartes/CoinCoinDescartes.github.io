@@ -17,7 +17,7 @@ export class GloutonIA extends IA {
 
             const listCapturedByMove = [];
             valideMove.forEach(allowedMove => {
-                allowMove.move.forEach(pos => {
+                allowedMove.move.forEach(pos => {
                     const tmpTok = { ...allowedMove.tok };
                     tmpTok.x = pos.x;
                     tmpTok.y = pos.y;
