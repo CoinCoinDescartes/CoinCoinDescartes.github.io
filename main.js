@@ -4,6 +4,7 @@ import { OriginalRenderer } from "./modules/renderers/originalRenderer.js";
 // import { MobileRenderer } from "./modules/renderers/mobileRenderer.js";
 import { Player } from "./modules/player.js";
 import { RandomIA } from "./modules/ia/randomIA.js";
+import { GloutonIA } from "./modules/ia/gloutonIA.js";
 
 let game;
 initGame();
@@ -17,7 +18,8 @@ function initGame() {
   const rand = Utils.getRandomIntInclusive(1, 2);
   if (rand === 1) {
     whitePlayer = new Player("white");
-    blackPlayer = new RandomIA("black");
+    // blackPlayer = new RandomIA("black");
+    blackPlayer = new GloutonIA("black");
     ia = blackPlayer;
   } else {
     blackPlayer = new Player("black");
