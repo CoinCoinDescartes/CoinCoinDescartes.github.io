@@ -1,5 +1,5 @@
-const cacheName = 'coin-tablut-v1.2'
-const dataCacheName = 'coin-tablut-1.0-data-v1.2';
+const cacheName = 'coin-tablut-v1.3'
+const dataCacheName = 'coin-tablut-1.0-data-v1.3';
 const filesToCache = [
   'index.html',
   'main.js',
@@ -21,6 +21,7 @@ const filesToCache = [
   'modules/renderers/originalRenderer.js',
   'modules/ia/ia.js',
   'modules/ia/randomIA.js',
+  'modules/ia/gloutonIA.js',
 ];
 
 self.addEventListener('install', (e) => {
