@@ -1,5 +1,5 @@
-const cacheName = 'coin-tablut-v1.5'
-const dataCacheName = 'coin-tablut-1.0-data-v1.5';
+const cacheName = 'coin-tablut-v1.6'
+const dataCacheName = 'coin-tablut-1.0-data-v1.6';
 const filesToCache = [
   'index.html',
   'main.js',
@@ -26,6 +26,7 @@ const filesToCache = [
 
 self.addEventListener('install', (e) => {
   console.log('Service worker installing...');
+  self.skipWaiting();
   e.waitUntil(
     caches.open(cacheName).then((cache) => {
       return cache.addAll(filesToCache);

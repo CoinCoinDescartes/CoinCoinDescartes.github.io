@@ -10,7 +10,7 @@ export class GloutonIA extends IA {
     play() {
         const randomMove = (valideMove, selectedMove) => {
             // console.log(valideMove);
-            
+
             const randToken = Utils.getRandomInt(0, valideMove.length);
             const choosenTokenMove = valideMove[randToken];
             const randMove = Utils.getRandomInt(0, choosenTokenMove.move.length);
@@ -20,20 +20,34 @@ export class GloutonIA extends IA {
             selectedMove.pos = pos;
         };
 
-        const getHigherPointMove = (moveWithPoint) => {
-            const higherPointMove = { token: null, move: null, point: -1 };
+        const getRandomHigherPointMove = (moveWithPoint) => {
+            let higherPointMove = { token: null, move: null, point: -1 };
+            let listHigherPointMove = [];
             moveWithPoint.forEach(elem => {
                 // console.log(elem);
 
                 // elem { token: elem.token, move: elem.move, listCaptured: { listCaptured: listCaptured, point: point } };
-                elem.listCapturedWithPoint.forEach(captured => {
+                for (const captured of elem.listCapturedWithPoint) {
                     if (captured.point > higherPointMove.point) {
                         higherPointMove.token = elem.token;
                         higherPointMove.move = elem.move;
                         higherPointMove.point = captured.point;
+                        // if with found a bigger point reset of the array
+                        listHigherPointMove = [{ ...higherPointMove }];
+                        continue;
                     }
-                });
+                    if (captured.point === higherPointMove.point) {
+                        // if it's the same value, add to the list
+                        listHigherPointMove.push({ token: elem.token, move: elem.move, point: captured.point });
+                    }
+                }
             });
+
+            if(listHigherPointMove.length > 1) {
+                // multiple move with same point => random between them
+                const rand = Utils.getRandomInt(0, listHigherPointMove.length);
+                higherPointMove = listHigherPointMove[rand];
+            }
 
             return higherPointMove;
         };
@@ -83,7 +97,7 @@ export class GloutonIA extends IA {
             const listCapturedByMoveWithPoint = computePointByMove(listCapturedByMove);
 
             if (listCapturedByMoveWithPoint.length !== 0) {
-                const higherPointMove = getHigherPointMove(listCapturedByMoveWithPoint);
+                const higherPointMove = getRandomHigherPointMove(listCapturedByMoveWithPoint);
                 selectedMove.token = higherPointMove.token;
                 selectedMove.pos = higherPointMove.move;
             } else {
@@ -100,11 +114,9 @@ export class GloutonIA extends IA {
                     return listCapturedByMove.map(elem => {
                         const newElem = { token: elem.token, move: elem.move };
 
-                        newElem.listCapturedWithPoint = elem.listCaptured.map((capturedToken, _, tab) => {
-                            let point = 0;
-
-                            point += tab.length;
-                            return { listCaptured: tab, point: point };
+                        // TODO: refactor
+                        newElem.listCapturedWithPoint = elem.listCaptured.map((_1, _2, tab) => {
+                            return { listCaptured: tab, point: tab.length };
                         });
                         return newElem;
                     });
@@ -112,7 +124,7 @@ export class GloutonIA extends IA {
                 const listCapturedByMove = getListCapturedByMove(validMove);
                 const listCapturedByMoveWithPoint = computePointByMove(listCapturedByMove);
                 if (listCapturedByMoveWithPoint.length !== 0) {
-                    const higherPointMove = getHigherPointMove(listCapturedByMoveWithPoint);
+                    const higherPointMove = getRandomHigherPointMove(listCapturedByMoveWithPoint);
                     selectedMove.token = higherPointMove.token;
                     selectedMove.pos = higherPointMove.move;
                 } else {
@@ -161,7 +173,7 @@ export class GloutonIA extends IA {
                 if (listmove.length !== 0) {
                     listValidMoves.push({ tok: tok, move: listmove });
                 }
-            });            
+            });
 
             // type {token, {x,y}}
             let selectedMove = null;
@@ -174,7 +186,7 @@ export class GloutonIA extends IA {
             }
 
             console.log("I play : ", selectedMove);
-            
+
             this.game.gameMove(selectedMove.token, selectedMove.pos);
         }
     }
