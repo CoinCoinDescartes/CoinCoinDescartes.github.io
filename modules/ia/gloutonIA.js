@@ -8,13 +8,37 @@ export class GloutonIA extends IA {
     }
 
     play() {
-        const blackPlay = (valideMove) => {
-            const selectedMove = {
-                token: null, pos: {
-                    x: -1, y: -1
-                }
-            };
+        const randomMove = (valideMove, selectedMove) => {
+            // console.log(valideMove);
+            
+            const randToken = Utils.getRandomInt(0, valideMove.length);
+            const choosenTokenMove = valideMove[randToken];
+            const randMove = Utils.getRandomInt(0, choosenTokenMove.move.length);
+            const choosenMove = choosenTokenMove.move[randMove];
+            const pos = { x: choosenMove.x, y: choosenMove.y };
+            selectedMove.token = choosenTokenMove.tok;
+            selectedMove.pos = pos;
+        };
 
+        const getHigherPointMove = (moveWithPoint) => {
+            const higherPointMove = { token: null, move: null, point: -1 };
+            moveWithPoint.forEach(elem => {
+                // console.log(elem);
+
+                // elem { token: elem.token, move: elem.move, listCaptured: { listCaptured: listCaptured, point: point } };
+                elem.listCapturedWithPoint.forEach(captured => {
+                    if (captured.point > higherPointMove.point) {
+                        higherPointMove.token = elem.token;
+                        higherPointMove.move = elem.move;
+                        higherPointMove.point = captured.point;
+                    }
+                });
+            });
+
+            return higherPointMove;
+        };
+
+        const getListCapturedByMove = (valideMove) => {
             const listCapturedByMove = [];
             valideMove.forEach(allowedMove => {
                 allowedMove.move.forEach(pos => {
@@ -29,61 +53,99 @@ export class GloutonIA extends IA {
                 });
             });
 
+            return listCapturedByMove;
+        };
 
-            const listCapturedByMoveWithPoint = listCapturedByMove.map(elem => {
-                const newElem = { token: elem.token, move: elem.move };
+        const blackPlay = (valideMove) => {
+            const computePointByMove = (listCapturedByMove) => {
+                return listCapturedByMove.map(elem => {
+                    const newElem = { token: elem.token, move: elem.move };
 
-                newElem.listCapturedWithPoint = elem.listCaptured.map((capturedToken, _, tab) => {
-                    let point = 0;
+                    newElem.listCapturedWithPoint = elem.listCaptured.map((capturedToken, _, tab) => {
+                        let point = 0;
 
-                    point += tab.length;
-                    if (capturedToken.isKing === true) {
-                        point += 1000;
-                    }
-                    return { listCaptured: tab, point: point };
-                });
-                return newElem;
-            });
-
-            const firstMove = listCapturedByMoveWithPoint[0];
-            if (firstMove) {
-                let higherPointMove = { token: firstMove.token, move: firstMove.move, point: -1 }
-                listCapturedByMoveWithPoint.forEach(elem => {
-                    // console.log(elem);
-
-                    // elem { token: elem.token, move: elem.move, listCaptured: { listCaptured: listCaptured, point: point } };
-                    elem.listCapturedWithPoint.forEach(captured => {
-                        if (captured.point > higherPointMove.point) {
-                            higherPointMove.token = elem.token;
-                            higherPointMove.move = elem.move;
-                            higherPointMove.point = captured.point;
+                        point += tab.length;
+                        if (capturedToken.isKing === true) {
+                            point += 1000;
                         }
+                        return { listCaptured: tab, point: point };
                     });
+                    return newElem;
                 });
-                selectedMove.token = higherPointMove.token;
-                selectedMove.pos = higherPointMove.move;
-            } else {
-                //random move
-                console.log('NO VALID CAPTURING MOVE => PLAY RANDOM');
-
-                const randToken = Utils.getRandomInt(0, valideMove.length);
-                const choosenTokenMove = valideMove[randToken];
-                const randMove = Utils.getRandomInt(0, choosenTokenMove.move.length);
-                const choosenMove = choosenTokenMove.move[randMove];
-                const pos = { x: choosenMove.x, y: choosenMove.y };
-                selectedMove.token = choosenTokenMove.tok;
-                selectedMove.pos = pos;
-            }
-
-            return selectedMove;
-        }
-        const whitePlay = (valideMove) => {
+            };
             const selectedMove = {
                 token: null, pos: {
                     x: -1, y: -1
                 }
             };
-            // TODO: white strategy
+
+            const listCapturedByMove = getListCapturedByMove(valideMove);
+            const listCapturedByMoveWithPoint = computePointByMove(listCapturedByMove);
+
+            if (listCapturedByMoveWithPoint.length !== 0) {
+                const higherPointMove = getHigherPointMove(listCapturedByMoveWithPoint);
+                selectedMove.token = higherPointMove.token;
+                selectedMove.pos = higherPointMove.move;
+            } else {
+                //random move
+                console.log('NO VALID CAPTURING MOVE => PLAY RANDOM', valideMove);
+                randomMove(valideMove, selectedMove);
+            }
+
+            return selectedMove;
+        }
+        const whitePlay = (valideMove) => {
+            const getMoveWithMostCaptured = (validMove, selectedMove) => {
+                const computePointByMove = (listCapturedByMove) => {
+                    return listCapturedByMove.map(elem => {
+                        const newElem = { token: elem.token, move: elem.move };
+
+                        newElem.listCapturedWithPoint = elem.listCaptured.map((capturedToken, _, tab) => {
+                            let point = 0;
+
+                            point += tab.length;
+                            return { listCaptured: tab, point: point };
+                        });
+                        return newElem;
+                    });
+                };
+                const listCapturedByMove = getListCapturedByMove(validMove);
+                const listCapturedByMoveWithPoint = computePointByMove(listCapturedByMove);
+                if (listCapturedByMoveWithPoint.length !== 0) {
+                    const higherPointMove = getHigherPointMove(listCapturedByMoveWithPoint);
+                    selectedMove.token = higherPointMove.token;
+                    selectedMove.pos = higherPointMove.move;
+                } else {
+                    //random move
+                    console.log('NO VALID CAPTURING MOVE => PLAY RANDOM');
+                    randomMove(validMove, selectedMove);
+                }
+            };
+            const selectedMove = {
+                token: null, pos: {
+                    x: -1, y: -1
+                }
+            };
+
+            let kingTokMovement = valideMove.filter(elem => {
+                return elem.tok.isKing === true;
+            })
+
+            if (kingTokMovement.length !== 0) {
+                kingTokMovement = kingTokMovement[0];
+
+                const boardEdge = this.game.board.getEdge();
+
+                const allowedKingMoveOnEdge = kingTokMovement.move.filter(value => boardEdge.includes(value));
+                if (allowedKingMoveOnEdge.length !== 0) {
+                    selectedMove.token = kingTokMovement.tok;
+                    selectedMove.pos = { x: allowedKingMoveOnEdge[0].x, y: allowedKingMoveOnEdge[0].y };
+                } else {
+                    getMoveWithMostCaptured(valideMove, selectedMove)
+                }
+            } else {
+                getMoveWithMostCaptured(valideMove, selectedMove)
+            }
 
             return selectedMove;
         }
@@ -92,11 +154,14 @@ export class GloutonIA extends IA {
         if (this.game.playerTurn === this.name) {
             console.log('je dois jouer !');
 
-            const listValidMoves = this.listToken.map(tok => {
-                const listmove = this.game.getValidPosToMove(tok);
-                return { tok: tok, move: listmove };
-            }).filter(pos => pos.move.length !== 0);
+            const listValidMoves = [];
 
+            this.listToken.forEach(tok => {
+                const listmove = this.game.getValidPosToMove(tok);
+                if (listmove.length !== 0) {
+                    listValidMoves.push({ tok: tok, move: listmove });
+                }
+            });            
 
             // type {token, {x,y}}
             let selectedMove = null;
@@ -108,6 +173,8 @@ export class GloutonIA extends IA {
                 selectedMove = whitePlay(listValidMoves);
             }
 
+            console.log("I play : ", selectedMove);
+            
             this.game.gameMove(selectedMove.token, selectedMove.pos);
         }
     }

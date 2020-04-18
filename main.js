@@ -18,12 +18,12 @@ function initGame() {
   const rand = Utils.getRandomIntInclusive(1, 2);
   if (rand === 1) {
     whitePlayer = new Player("white");
-    // blackPlayer = new RandomIA("black");
     blackPlayer = new GloutonIA("black");
     ia = blackPlayer;
   } else {
     blackPlayer = new Player("black");
-    whitePlayer = new RandomIA("white");
+    // whitePlayer = new RandomIA("white");
+    whitePlayer = new GloutonIA("white");
     ia = whitePlayer;
   }
   game = new Game(whitePlayer, blackPlayer);
