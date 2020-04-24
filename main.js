@@ -1,6 +1,7 @@
 import { Game } from "./modules/games.js";
 import { Utils } from "./modules/utils.js";
-import { OriginalRenderer } from "./modules/renderers/originalRenderer.js";
+import { TimoRenderer } from "./modules/renderers/timoRenderer.js";
+// import { OriginalRenderer } from "./modules/renderers/originalRenderer.js";
 // import { MobileRenderer } from "./modules/renderers/mobileRenderer.js";
 import { Player } from "./modules/player.js";
 import { RandomIA } from "./modules/ia/randomIA.js";
@@ -34,7 +35,14 @@ function initGame() {
   const winnerElement = document.getElementById("winner");
   const bip = document.getElementById("sound-bip");
   const boup = document.getElementById("sound-boup");
-  const renderer = new OriginalRenderer(
+/*   const renderer = new OriginalRenderer(
+    gameZoneElement,
+    playerTurnElement,
+    winnerElement,
+    bip,
+    boup
+  ); */
+  const renderer = new TimoRenderer(
     gameZoneElement,
     playerTurnElement,
     winnerElement,
@@ -44,6 +52,7 @@ function initGame() {
   game.observer.push(renderer);
   game.observer.push(ia);
   renderer.generateView(game);
+  renderer.update(game);
   if (game.playerTurn === ia.name) {
     ia.play();
   }

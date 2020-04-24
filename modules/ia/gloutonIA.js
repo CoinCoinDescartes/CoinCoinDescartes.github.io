@@ -43,7 +43,7 @@ export class GloutonIA extends IA {
                 }
             });
 
-            if(listHigherPointMove.length > 1) {
+            if (listHigherPointMove.length > 1) {
                 // multiple move with same point => random between them
                 const rand = Utils.getRandomInt(0, listHigherPointMove.length);
                 higherPointMove = listHigherPointMove[rand];
@@ -192,8 +192,11 @@ export class GloutonIA extends IA {
     }
 
     update(game) {
-        console.log("Glouton IA update", game);
-        this.setGame(game);
-        this.play();
+        setTimeout(() => {
+            console.log("Glouton IA update", game);
+            this.setGame(game);
+            this.play();
+
+        }, 2000);
     }
 }

@@ -4,6 +4,8 @@ export class Token {
     this.x = x;
     this.y = y;
     this.id = id;
+    this.previousPosition = null;
+    this.isDeleted = false;
     if (isKing) {
       this.isKing = true;
     }
@@ -15,6 +17,11 @@ export class Token {
   }
 
   setId(id) {
-      this.id = id;
+    this.id = id;
   }
+
+  savePosition() {
+    this.previousPosition = { x: this.x, y: this.y };
+  };
+
 }

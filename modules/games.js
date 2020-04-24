@@ -93,7 +93,13 @@ export class Game {
     Rules
   */
   gameMove(token, finalPos) {
+    const prepareTiles = () => {
+      this.board.allToken.map(tk => {
+        tk.savePosition();
+      })
+    };
     console.log('gameMove', token.color, this.playerTurn);
+    prepareTiles();
 
     if (token.color === this.playerTurn) {
       this.board.moveToken(token, finalPos);
@@ -120,6 +126,7 @@ export class Game {
 
   deleteToken(tok) {
     this.board.deleteToken(tok);
+    tok.isDeleted = true;
     const player = this.getPlayerByName(tok.color);
     player.numberOfToken--;
   }

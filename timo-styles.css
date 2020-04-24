@@ -1,0 +1,434 @@
+body {
+    background-color: black;
+    color           : white;
+}
+
+#game-zone {
+    height: 500px;
+    width : 500px;
+    margin: 0 auto;
+}
+
+.grid-container {
+    position: absolute;
+    z-index : 1;
+}
+
+.grid-container {
+    display              : grid;
+    grid-template-columns: repeat(9, minmax(45px, 1fr));
+    grid-auto-rows       : 1fr;
+}
+
+.grid-container::before {
+    content       : '';
+    width         : 0;
+    padding-bottom: 100%;
+    grid-row      : 1 / 1;
+    grid-column   : 1 / 1;
+}
+
+.grid-container> :first-child {
+    grid-row   : 1 / 1;
+    grid-column: 1 / 1;
+}
+
+.token-container {
+    position: absolute;
+    z-index : 2;
+}
+
+.grid-container .grid-item {
+    display         : grid;
+    justify-items   : center;
+    align-items     : center;
+    background-color: rgba(255, 255, 255, 0.8);
+    border          : 1px solid rgba(0, 0, 0, 0.8);
+    text-align      : center;
+    color           : blue;
+}
+
+.grid-container .grid-item:nth-child(2n) {
+    background-color: saddlebrown;
+}
+
+.grid-container .grid-item.validMove {
+    background-color: aqua;
+}
+
+.grid-container .grid-item.validMove.current {
+    background-color: red;
+}
+
+.grid-container .grid-item.throne {
+    background-color: cadetblue;
+}
+
+.token-container .pion {
+    height             : 100%;
+    width              : 100%;
+    height             : 45px;
+    width              : 45px;
+    background-position: center center;
+    background-repeat  : no-repeat;
+    background-size    : cover;
+    position           : absolute;
+    transition: transform 1s ease-in-out 0s;
+}
+
+.token-container .pion.black {
+    background-image: url("./img/black.png");
+}
+
+.token-container .pion.white {
+    background-image: url("./img/white.png");
+}
+
+.token-container .pion.white.king {
+    background-image: url("./img/king.png");
+}
+
+.pion.token-position-1-1 {
+    transform: translate(0px, 0px);
+}
+
+.pion.token-position-1-2 {
+    transform: translate(45px, 0px);
+}
+
+.pion.token-position-1-3 {
+    transform: translate(90px, 0px);
+}
+
+.pion.token-position-1-4 {
+    transform: translate(135px, 0px);
+}
+
+.pion.token-position-1-5 {
+    transform: translate(180px, 0px);
+}
+
+.pion.token-position-1-6 {
+    transform: translate(225px, 0px);
+}
+
+.pion.token-position-1-7 {
+    transform: translate(270px, 0px);
+}
+
+.pion.token-position-1-8 {
+    transform: translate(315px, 0px);
+}
+
+.pion.token-position-1-9 {
+    transform: translate(360px, 0px);
+}
+
+.pion.token-position-2-1 {
+    transform: translate(0px, 45px);
+}
+
+.pion.token-position-2-2 {
+    transform: translate(45px, 45px);
+}
+
+.pion.token-position-2-3 {
+    transform: translate(90px, 45px);
+}
+
+.pion.token-position-2-4 {
+    transform: translate(135px, 45px);
+}
+
+.pion.token-position-2-5 {
+    transform: translate(180px, 45px);
+}
+
+.pion.token-position-2-6 {
+    transform: translate(225px, 45px);
+}
+
+.pion.token-position-2-7 {
+    transform: translate(270px, 45px);
+}
+
+.pion.token-position-2-8 {
+    transform: translate(315px, 45px);
+}
+
+.pion.token-position-2-9 {
+    transform: translate(360px, 45px);
+}
+
+.pion.token-position-3-1 {
+    transform: translate(0px, 90px);
+}
+
+.pion.token-position-3-2 {
+    transform: translate(45px, 90px);
+}
+
+.pion.token-position-3-3 {
+    transform: translate(90px, 90px);
+}
+
+.pion.token-position-3-4 {
+    transform: translate(135px, 90px);
+}
+
+.pion.token-position-3-5 {
+    transform: translate(180px, 90px);
+}
+
+.pion.token-position-3-6 {
+    transform: translate(225px, 90px);
+}
+
+.pion.token-position-3-7 {
+    transform: translate(270px, 90px);
+}
+
+.pion.token-position-3-8 {
+    transform: translate(315px, 90px);
+}
+
+.pion.token-position-3-9 {
+    transform: translate(360px, 90px);
+}
+
+.pion.token-position-4-1 {
+    transform: translate(0px, 135px);
+}
+
+.pion.token-position-4-2 {
+    transform: translate(45px, 135px);
+}
+
+.pion.token-position-4-3 {
+    transform: translate(90px, 135px);
+}
+
+.pion.token-position-4-4 {
+    transform: translate(135px, 135px);
+}
+
+.pion.token-position-4-5 {
+    transform: translate(180px, 135px);
+}
+
+.pion.token-position-4-6 {
+    transform: translate(225px, 135px);
+}
+
+.pion.token-position-4-7 {
+    transform: translate(270px, 135px);
+}
+
+.pion.token-position-4-8 {
+    transform: translate(315px, 135px);
+}
+
+.pion.token-position-4-9 {
+    transform: translate(360px, 135px);
+}
+
+
+
+
+.pion.token-position-5-1 {
+    transform: translate(0px, 180px);
+}
+
+.pion.token-position-5-2 {
+    transform: translate(45px, 180px);
+}
+
+.pion.token-position-5-3 {
+    transform: translate(90px, 180px);
+}
+
+.pion.token-position-5-4 {
+    transform: translate(135px, 180px);
+}
+
+.pion.token-position-5-5 {
+    transform: translate(180px, 180px);
+}
+
+.pion.token-position-5-6 {
+    transform: translate(225px, 180px);
+}
+
+.pion.token-position-5-7 {
+    transform: translate(270px, 180px);
+}
+
+.pion.token-position-5-8 {
+    transform: translate(315px, 180px);
+}
+
+.pion.token-position-5-9 {
+    transform: translate(360px, 180px);
+}
+
+
+
+.pion.token-position-6-1 {
+    transform: translate(0px, 225px);
+}
+
+.pion.token-position-6-2 {
+    transform: translate(45px, 225px);
+}
+
+.pion.token-position-6-3 {
+    transform: translate(90px, 225px);
+}
+
+.pion.token-position-6-4 {
+    transform: translate(135px, 225px);
+}
+
+.pion.token-position-6-5 {
+    transform: translate(180px, 225px);
+}
+
+.pion.token-position-6-6 {
+    transform: translate(225px, 225px);
+}
+
+.pion.token-position-6-7 {
+    transform: translate(270px, 225px);
+}
+
+.pion.token-position-6-8 {
+    transform: translate(315px, 225px);
+}
+
+.pion.token-position-6-9 {
+    transform: translate(360px, 225px);
+}
+
+
+
+
+.pion.token-position-7-1 {
+    transform: translate(0px, 270px);
+}
+
+.pion.token-position-7-2 {
+    transform: translate(45px, 270px);
+}
+
+.pion.token-position-7-3 {
+    transform: translate(90px, 270px);
+}
+
+.pion.token-position-7-4 {
+    transform: translate(135px, 270px);
+}
+
+.pion.token-position-7-5 {
+    transform: translate(180px, 270px);
+}
+
+.pion.token-position-7-6 {
+    transform: translate(225px, 270px);
+}
+
+.pion.token-position-7-7 {
+    transform: translate(270px, 270px);
+}
+
+.pion.token-position-7-8 {
+    transform: translate(315px, 270px);
+}
+
+.pion.token-position-7-9 {
+    transform: translate(360px, 270px);
+}
+
+
+
+
+
+
+
+.pion.token-position-8-1 {
+    transform: translate(0px, 315px);
+}
+
+.pion.token-position-8-2 {
+    transform: translate(45px, 315px);
+}
+
+.pion.token-position-8-3 {
+    transform: translate(90px, 315px);
+}
+
+.pion.token-position-8-4 {
+    transform: translate(135px, 315px);
+}
+
+.pion.token-position-8-5 {
+    transform: translate(180px, 315px);
+}
+
+.pion.token-position-8-6 {
+    transform: translate(225px, 315px);
+}
+
+.pion.token-position-8-7 {
+    transform: translate(270px, 315px);
+}
+
+.pion.token-position-8-8 {
+    transform: translate(315px, 315px);
+}
+
+.pion.token-position-8-9 {
+    transform: translate(360px, 315px);
+}
+
+
+
+
+
+
+
+
+.pion.token-position-9-1 {
+    transform: translate(0px, 360px);
+}
+
+.pion.token-position-9-2 {
+    transform: translate(45px, 360px);
+}
+
+.pion.token-position-9-3 {
+    transform: translate(90px, 360px);
+}
+
+.pion.token-position-9-4 {
+    transform: translate(135px, 360px);
+}
+
+.pion.token-position-9-5 {
+    transform: translate(180px, 360px);
+}
+
+.pion.token-position-9-6 {
+    transform: translate(225px, 360px);
+}
+
+.pion.token-position-9-7 {
+    transform: translate(270px, 360px);
+}
+
+.pion.token-position-9-8 {
+    transform: translate(315px, 360px);
+}
+
+.pion.token-position-9-9 {
+    transform: translate(360px, 360px);
+}

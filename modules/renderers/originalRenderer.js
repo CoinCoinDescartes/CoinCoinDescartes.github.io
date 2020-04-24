@@ -2,6 +2,7 @@ import { Renderer } from "./renderer.js";
 
 export class OriginalRenderer extends Renderer {
   generateView(game) {
+    console.info("Original Renderer");
     let currentDraged = null;
     const generateGrid = game => {
       const createTokenView = (token, playerTurn) => {
@@ -151,7 +152,7 @@ export class OriginalRenderer extends Renderer {
         }
       }
 
-      const gameZone = document.getElementById("game-zone");
+      const gameZone = document.getElementById("game-zone");// ???? this.gameZone devrait suffir
       gameZone.appendChild(gridContainer);
     };
 
